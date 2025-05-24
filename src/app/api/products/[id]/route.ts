@@ -2,15 +2,12 @@
 import { NextResponse } from 'next/server';
 import { Product } from '@/types/types'; // Assuming you have a shared types file
 
-interface RouteParams {
-  id: string;
-}
 
 export async function GET(
   request: Request,
-  { params }: { params: RouteParams } // Získavame parametre z URL, ktoré obsahujú ID produktu
+  context: { params: { id: string } } // Získavame parametre z URL, ktoré obsahujú ID produktu
 ) {
-  const { id } = params; // Získavame ID produktu z parametrov
+  const { id } = context.params; // Získavame ID produktu z parametrov
 
   if (!id) {
     return NextResponse.json({ message: 'Product ID is required' }, { status: 400 });
