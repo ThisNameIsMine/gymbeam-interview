@@ -10,7 +10,7 @@ function ProductCard({ product }: { product: Product }) {
             className="group border border-neutral-200 rounded-xl p-4 shadow-md bg-white flex flex-col justify-between transition-transform duration-300 ease-in-out hover:shadow-lg hover:scale-105"
         >
             <Link href={`/products/${product.id}`} className="flex flex-col p-4 flex-grow" >
-                <div className="w-full h-48 mb-4 overflow-hidden rounded-md bg-neutral-50 flex items-center justify-center">
+                <div className="w-full h-48 mb-4 overflow-hidden rounded-md flex items-center justify-center">
                     <img
                         src={product.image}
                         alt={product.title}
