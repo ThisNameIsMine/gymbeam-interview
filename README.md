@@ -1,4 +1,6 @@
 # GymBeam Case Study - React Developer (2025, Level 1)
+## Live Demo
+https://gymbeam-interview-ecru.vercel.app/
 
 ## Objective
 The objective of the Case Study is to create a simple web application using React, Next.js and Tailwind, containing a list of products and a detail view for authenticated customers using Fake Store API. All information regarding installing and starting the project and any additional details will be provided in the README.md file. It's crucial to prioritize a good user experience to satisfy potential customers.
@@ -100,6 +102,7 @@ Next.js Route Handlers are used as a backend proxy to interact with the FakeStor
 -   Centralized API interaction logic.
 -   Server-side caching capabilities (implemented here).
 -   Abstraction of the external API from the client-side code.
+-   Ironically, the only endpoint not used in this way is the login endpoint.
 
 All API routes implement:
 -   Error handling for API failures.
@@ -146,8 +149,8 @@ All API routes implement:
 -   **Logout:** The `logout` function removes the token from `localStorage` and updates the context state, redirecting the user to `/login`.
 
 ### Protected Routes
--   The `ProtectedRoute.tsx` component is used to guard routes that require authentication (e.g., `/products` and `/products/[id]`).
--   It leverages the `useAuth` hook to check `isAuthenticated` and `isLoading` states. If not authenticated and not loading, it redirects to `/login` using `next/navigation`'s `router.replace()`.
+-   The `ProtectedRoute.tsx` is wrapper/higher-order component and is used to guard routes that require authentication (e.g., `/products` and `/products/[id]`).
+-   It leverages the `useAuth` hook to check `isAuthenticated` and `isLoading` states. If not authenticated and not loading, it redirects to `/login` using `next/navigation`'s `router.replace()`. Replace is used to prevent link entering call-stack, so user will not go back without credentials.
 
 ### Data Fetching & Caching
 -   **Client-Side Fetching:** Pages like `ProductsPageContent` (in `/products/page.tsx`) and `ProductDetailPageContent` (in `/products/[id]/page.tsx`) use `useEffect` and `fetch` to call the internal Next.js API routes (e.g., `/api/products`).
@@ -158,6 +161,7 @@ All API routes implement:
 -   **Tailwind CSS:** Used for all styling, enabling rapid development of a responsive and consistent UI.
 -   **GymBeam Brand Alignment:** Efforts were made to align with the GymBeam brand through logo usage, a color palette featuring orange, and UI components like the `AnnouncementBar` and `Banner`.
 -   **Responsive Design:** The application is designed to be responsive, with layouts and components adapting to various screen sizes (mobile, tablet, desktop) using Tailwind's responsive utility classes.
+-   **Mobile Design:** `ProductCard` component is designed so that the image and caption are clickable, while the description can be freely touched to provide a seamless experience and prevent accidental clicks.
 
 ## Enhancements (Going Above and Beyond Requirements)
 Several features and practices were implemented to enhance the application beyond the minimum requirements:
