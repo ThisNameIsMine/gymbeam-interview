@@ -9,7 +9,7 @@ interface RouteParams {
 
 export async function GET(
   request: NextRequest, 
-  { params }: {params: RouteParams} // Získavame parametre z URL, ktoré obsahujú názov kategórie
+  { params }: { params: { categoryName: string } } // Získavame parametre z URL, ktoré obsahujú názov kategórie
 ) {
   const { categoryName } = params;
 

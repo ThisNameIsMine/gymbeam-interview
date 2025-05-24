@@ -8,7 +8,7 @@ interface RouteParams {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: RouteParams } // Získavame parametre z URL, ktoré obsahujú ID produktu
+  { params }: { params: { id: string } } // Získavame parametre z URL, ktoré obsahujú ID produktu
 ) {
   const { id } = params; // 
 
