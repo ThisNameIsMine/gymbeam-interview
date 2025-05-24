@@ -9,22 +9,24 @@ function ProductCard({ product }: { product: Product }) {
             key={product.id}
             className="group border border-neutral-200 rounded-xl p-4 shadow-md bg-white flex flex-col justify-between transition-transform duration-300 ease-in-out hover:shadow-lg hover:scale-105"
         >
-            <div className="w-full h-48 mb-4 overflow-hidden rounded-md bg-neutral-50 flex items-center justify-center">
-                <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-contain p-2"
-                />
-            </div>
+            <Link href={`/products/${product.id}`} className="flex flex-col p-4 flex-grow" >
+                <div className="w-full h-48 mb-4 overflow-hidden rounded-md bg-neutral-50 flex items-center justify-center">
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-full object-contain p-2"
+                    />
+                </div>
 
-            <p className="text-xs text-neutral-400 mb-2 capitalize">{product.category}</p>
+                <p className="text-xs text-neutral-400 mb-2 capitalize">{product.category}</p>
 
-            <h2
-                className="text-md font-semibold text-neutral-800 mb-1 truncate"
-                title={product.title}
-            >
-                {product.title}
-            </h2>
+                <h2
+                    className="text-md font-semibold text-neutral-800 mb-1 truncate"
+                    title={product.title}
+                >
+                    {product.title}
+                </h2>
+            </Link>
 
             <p className="text-sm text-neutral-600 line-clamp-2 mb-3">
                 {product.description}
