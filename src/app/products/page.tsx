@@ -1,7 +1,6 @@
 // src/app/products/page.tsx
 "use client";
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute'; // Komponent pre ochranu stránky pred neautorizovaným prístupom
 import { useAuth } from '@/contexts/AuthContext'; // Pre získanie autentifikačného kontextu
 import { Product } from '@/types/types'; // Typ pre produkt
@@ -12,7 +11,7 @@ import Banner from '@/components/Banner';
 
 function ProductsPageContent() {
     const [products, setProducts] = useState<Product[]>([]);
-    const [allProducts, setAllProducts] = useState<Product[]>([]); // Ukladá všetky produkty 
+    // const [allProducts, setAllProducts] = useState<Product[]>([]); // Ukladá všetky produkty 
     const [categories, setCategories] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -40,9 +39,10 @@ function ProductsPageContent() {
                 }
                 const data: Product[] = await response.json();
                 setProducts(data);
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error("Failed to fetch products:", err);
-                setError(err.message || 'Failed to load products.');
+                const message = err instanceof Error ? err.message : 'Unknown error';
+                setError(message || 'Failed to load products.');
             } finally {
                 setIsLoading(false);
             }
@@ -62,9 +62,8 @@ function ProductsPageContent() {
                 }
                 const data: string[] = await response.json();
                 setCategories(data);
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error("Failed to fetch categories:", err);
-                // Optionally set a specific category error state
             }
         };
         fetchCategories();
@@ -75,7 +74,7 @@ function ProductsPageContent() {
         const fetchProductsData = async () => {
             setIsLoading(true);
             setError(null);
-            let url = '/api/products'; // Default to all products
+            let url = '/api/products'; // Predvolená URL pre získanie všetkých produktov
             if (selectedCategory) {
                 url = `/api/products/category/${encodeURIComponent(selectedCategory)}`;
             }
@@ -87,14 +86,15 @@ function ProductsPageContent() {
                     throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
                 }
                 const data: Product[] = await response.json();
-                setProducts(data); // These are the currently displayed products (can be all or category-specific)
-                if (!selectedCategory) {
-                    setAllProducts(data); // Store all products only when no category is selected initially
-                }
-            } catch (err: any) {
+                setProducts(data); // Nastavenie produktov podľa vybranej kategórie
+                // if (!selectedCategory) {
+                //     setAllProducts(data); // Uloženie všetkých produktov, ak nie je vybraná žiadna kategória
+                // }
+            } catch (err: unknown) {
                 console.error("Failed to fetch products:", err);
-                setError(err.message || 'Failed to load products.');
-                setProducts([]); // Clear products on error
+                const message = err instanceof Error ? err.message : 'Unknown error'; // Získanie chybovej správy, ak je dostupná
+                setError(message || 'Failed to load products.');
+                setProducts([]); // V prípade chyby nastavíme produkty na prázdne pole
             } finally {
                 setIsLoading(false);
             }

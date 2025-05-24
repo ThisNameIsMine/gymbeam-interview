@@ -1,11 +1,10 @@
 // src/app/products/[id]/page.tsx
-"use client"; // For fetching data client-side and using hooks
+"use client";
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation'; // Pre získanie parametrov z URL (id produktu)
 import ProtectedRoute from '@/components/ProtectedRoute'; // Pre ochranu stránky pred neautorizovaným prístupom
-import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/LoadingSpinner'; // Pre zobrazenie načítavacieho indikátora
 import StarRating from '@/components/StarRating';
 import { Product } from '@/types/types'; // 
@@ -17,7 +16,7 @@ function ProductDetailPageContent() {
     const [product, setProduct] = useState<Product | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { token } = useAuth(); // Získanie tokenu z AuthContext
+
 
     useEffect(() => {
         if (!id) return;
@@ -36,9 +35,10 @@ function ProductDetailPageContent() {
                 }
                 const data: Product = await response.json();
                 setProduct(data);
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error(`Failed to fetch product ${id}:`, err);
-                setError(err.message || `Failed to load product ${id}.`);
+                const message = err instanceof Error ? err.message : 'Unknown error';
+                setError(message || `Failed to load product ${id}.`);
             } finally {
                 setIsLoading(false);
             }
@@ -68,7 +68,8 @@ function ProductDetailPageContent() {
                 ← Back to Products
             </Link>
             <div className="grid md:grid-cols-2 gap-8 items-start bg-white p-6 rounded-lg shadow-xl">
-                <div className="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+                <div className="w-full h-96 flex items-center justify-center rounded-lg overflow-hidden">
+                    {/* Next.js má svoj vlastný Image ale volím si použiť štandarndý img html tag */}
                     <img
                         src={product.image}
                         alt={product.title}

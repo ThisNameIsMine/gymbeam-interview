@@ -125,8 +125,9 @@ export default function LoginPage() {
                         </button>
                     </div>
                 </form>
+
                 <p className="text-sm text-center text-neutral-600">
-                    Don't have an account? Registration is optional for this demo.
+                    Do not have an account? Registration is optional for this demo.
                 </p>
                 <p className="text-sm text-center text-neutral-600">
                     <Link href="/" className="font-medium text-orange-600 hover:text-orange-500">

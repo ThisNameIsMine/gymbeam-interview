@@ -24,10 +24,11 @@ export async function GET() {
     const products: Product[] = await response.json();
     return NextResponse.json(products);
 
-  } catch (error: any) {    
+  } catch (error: unknown) {    
     console.error('Internal Server Error fetching products:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { message: 'Internal Server Error', error: error.message },
+      { message: 'Internal Server Error', error: message },
       { status: 500 }
     );
   }

@@ -1,9 +1,8 @@
 "use client";
-import Link from 'next/link';
 import { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext'; // Import useAuth hook
 import { redirect } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+
 
 export default function HomePage() {
   const { isAuthenticated, isLoading } = useAuth(); // Získanie informácie o autentifikácii z AuthContext
