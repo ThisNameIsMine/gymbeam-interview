@@ -1,13 +1,11 @@
-// src/app/api/products/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { Product } from '@/types/types'; // Assuming you have a shared types file
-
+import { Product } from '@/types/types';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } } // Získavame parametre z URL, ktoré obsahujú ID produktu
+  { params }: { params: { id: string } }
 ) {
-  const { id } = params; // 
+  const { id } = params;
 
   if (!id) {
     return NextResponse.json({ message: 'Product ID is required' }, { status: 400 });
@@ -15,16 +13,17 @@ export async function GET(
 
   try {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      next:{
-        revalidate: 3600, // Cache for 60 seconds
-        tags: [`product-${id}`] // Tag for cache invalidation
-      }
+      next: {
+        revalidate: 3600, // Cache for 1 hour
+        tags: [`product-${id}`],
+      },
     });
 
     if (!response.ok) {
       if (response.status === 404) {
         return NextResponse.json({ message: 'Product not found' }, { status: 404 });
       }
+
       console.error(`API Error fetching product ${id}: ${response.status} ${response.statusText}`);
       return NextResponse.json(
         { message: `Failed to fetch product. Status: ${response.status}` },
@@ -34,7 +33,6 @@ export async function GET(
 
     const product: Product = await response.json();
     return NextResponse.json(product);
-
   } catch (error: unknown) {
     console.error(`Internal Server Error fetching product ${id}:`, error);
     const message = error instanceof Error ? error.message : 'Unknown error';
