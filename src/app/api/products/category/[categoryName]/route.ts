@@ -1,7 +1,6 @@
 // src/app/api/products/category/[categoryName]/route.ts
 import { NextResponse } from 'next/server';
-
-interface Product { /* ... (same Product interface as above) ... */ }
+import { Product } from '@/types/types'; // Adjust the import path as necessary
 
 export async function GET(
   request: Request, // First argument is Request object

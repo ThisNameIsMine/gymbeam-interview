@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute'; // Import the HOC
 import { useAuth } from '@/contexts/AuthContext'; // To get the token if needed for API calls
-import { Product } from '@/types'; // Assuming you have a Product type defined
+import { Product } from '@/types/types'; // Assuming you have a Product type defined
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ProductCard from '@/components/ProductCard';
 import Banner from '@/components/Banner';
@@ -27,8 +27,11 @@ function ProductsPageContent() {
             try {
                 // FakeStoreAPI's /products endpoint doesn't require authentication,
                 // but in a real app, you might need to pass the token in headers.
-                const response = await fetch('https://fakestoreapi.com/products', {
-                    // headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+                const response = await fetch('/api/products', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Authorization': `Bearer ${token}` // Tu by bol token, ak by bol potrebný, ale FakeStoreAPI ho nevyžaduje
+                    }
                 });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

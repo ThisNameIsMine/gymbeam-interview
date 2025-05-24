@@ -47,16 +47,18 @@ export default function Footer() {
                     <div className="lg:col-span-1 md:col-span-3"> {/* Spans full on md, specific on lg */}
                         <h5 className="text-lg font-semibold text-white mb-4">Newsletter</h5>
                         <p className="text-sm mb-3">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
-                        <form onSubmit={(e) => e.preventDefault()} className="flex">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="w-full px-3 py-2 rounded-l-md text-neutral-800 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                            />
-                            <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-r-md transition-colors">
+                        <div className="flex items-center gap-1">
+                            <form onSubmit={(e) => e.preventDefault()} className="flex bg-white">
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className="w-full px-3 py-2 rounded-l-md text-neutral-800 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-xl"
+                                />
+                            </form>
+                            <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-md transition-colors">
                                 Subscribe
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
 

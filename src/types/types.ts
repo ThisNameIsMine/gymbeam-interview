@@ -1,5 +1,5 @@
 // Define an interface for the product structure
-interface Product {
+export interface Product {
     id: number;
     title: string;
     price: number;

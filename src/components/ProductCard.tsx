@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Product } from '@/types';
+import { Product } from '@/types/types';
 import StarRating from './StarRating';
 
 function ProductCard({ product }: { product: Product }) {

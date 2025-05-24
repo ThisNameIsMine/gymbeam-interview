@@ -1,13 +1,13 @@
 // src/app/api/products/[id]/route.ts
 import { NextResponse } from 'next/server';
-import { Product } from '@/types'; // Assuming you have a shared types file
+import { Product } from '@/types/types'; // Assuming you have a shared types file
 
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
+  const { id } = await params; // Došlo k zmene kedy params je asynchronný objekt, takže musíme použiť await
 
   if (!id) {
     return NextResponse.json({ message: 'Product ID is required' }, { status: 400 });
