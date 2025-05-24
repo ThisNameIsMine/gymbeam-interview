@@ -36,7 +36,7 @@ export default function Banner() {
     return (
         <div className="bg-white text-neutral-800 ">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
                     {featureItems.map((item, index) => (
                         <div key={index} className="flex flex-col md:flex-row items-center md:items-start">
                             <div className="mb-2 md:mb-0 md:mr-4 shrink-0">{item.icon}</div>
