@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext"; // Import useAuth hooku
-import { LuUser, LuShoppingCart, LuLogOut, LuLogIn } from "react-icons/lu";
+import { LuUser, LuShoppingCart, LuLogOut, LuLogIn, LuSearch } from "react-icons/lu";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -33,6 +33,18 @@ export default function Navbar() {
                 <Link href={isAuthenticated ? "/products" : "/"} className="text-2xl font-bold text-orange-600 shrink-0">
                     <img src="/GB_Logo_Energy_COM.png" alt="GymBeam" className="h-10 sm:h-12 md:h-14 w-auto" />
                 </Link>
+
+                {/* Search bar */}
+                <div className="flex-grow px-4 hidden md:block">
+                    <div className="relative max-w-md mx-auto">
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            className="w-full border border-neutral-300 rounded-md pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                        />
+                        <LuSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-500 pointer-events-none" />
+                    </div>
+                </div>
 
                 {/* Icons and Auth Button Section */}
                 <div className="flex items-center space-x-4 md:space-x-6">

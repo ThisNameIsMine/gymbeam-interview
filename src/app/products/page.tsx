@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext'; // To get the token if needed 
 import { Product } from '@/types'; // Assuming you have a Product type defined
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ProductCard from '@/components/ProductCard';
+import Banner from '@/components/Banner';
 
 
 function ProductsPageContent() {
@@ -137,7 +138,8 @@ function ProductsPageContent() {
 
     return (
         <div>
-            <h1 className="text-4xl font-bold mb-8 text-center text-neutral-800">Our Products</h1>
+            <Banner />
+            {/* <h1 className="text-4xl font-bold mb-8 text-center text-neutral-800">Recomended Products</h1> */}
             {/* Category Filters UI */}
             <div className="text-center py-4 mb-6">
                 <button

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Product } from '@/types';
+import StarRating from './StarRating';
 
 function ProductCard({ product }: { product: Product }) {
     return (
@@ -29,6 +30,13 @@ function ProductCard({ product }: { product: Product }) {
                 {product.description}
             </p>
 
+            <div className="text-sm text-neutral-600 flex">
+                <StarRating
+                    rating={product.rating.rate}
+                    className="mb-2"
+                />
+                <span className="ml-2">({product.rating.count} reviews)</span>
+            </div>
             <p className="text-lg font-bold text-orange-600 mb-4">
                 ${product.price.toFixed(2)}
             </p>
