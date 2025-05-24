@@ -7,6 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'; // Import the HOC
 import { useAuth } from '@/contexts/AuthContext'; // To get the token if needed for API calls
 import { Product } from '@/types'; // Assuming you have a Product type defined
 import LoadingSpinner from '@/components/LoadingSpinner';
+import ProductCard from '@/components/ProductCard';
 
 
 function ProductsPageContent() {
@@ -166,26 +167,7 @@ function ProductsPageContent() {
             {!isLoading && !error && products.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {products.map((product) => (
-                        <div key={product.id} className="border border-neutral-200 rounded-lg p-4 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
-                            <div className="w-full h-48 mb-4 overflow-hidden rounded-md bg-gray-100">
-                                <img
-                                    src={product.image}
-                                    alt={product.title}
-                                    className="w-full h-full object-contain p-2"
-                                />
-                            </div>
-                            <h2 className="text-lg font-semibold text-neutral-700 mb-1 truncate" title={product.title}>
-                                {product.title}
-                            </h2>
-                            <p className="text-xl font-bold text-orange-600 mb-3">${product.price.toFixed(2)}</p>
-                            <p className="text-sm text-neutral-500 mb-3 capitalize">{product.category}</p>
-                            <Link
-                                href={`/products/${product.id}`}
-                                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded text-center transition duration-150 ease-in-out"
-                            >
-                                View Details
-                            </Link>
-                        </div>
+                        <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             )}

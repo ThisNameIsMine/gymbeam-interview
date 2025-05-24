@@ -22,9 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="">
         <AuthProvider>
-          <AnnouncementBar message="Darček k nákupu ASAP Cookie vanilka + ASAP Cookie trojitá čokoláda ZADARMO. Stačí nákup nad 50 € a kód ASAP." />
-          <Navbar /> {/* Add Navbar here */}
-          <main className="container mx-auto px-4 py-8"> {/* Added some padding to main content */}
+          <AnnouncementBar message="FREE gift with purchase of ASAP Cookie vanilla + ASAP Cookie triple chocolate. All you need is a purchase over €50 and the code ASAP." />
+          <Navbar />
+          <main className="container mx-auto px-4 py-8">
             {children}
           </main>
           <Footer />

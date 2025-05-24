@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation'; // To get the [id] from the URL
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import StarRating from '@/components/StarRating';
 
 // Define an interface for the product structure (can be reused or imported)
 interface Product {
@@ -89,11 +90,26 @@ function ProductDetailPageContent() {
                     </p>
                     <p className="text-3xl font-extrabold text-orange-600 mb-6">${product.price.toFixed(2)}</p>
                     <p className="text-neutral-700 mb-4 leading-relaxed">{product.description}</p>
-                    {product.rating && (
-                        <div className="text-sm text-neutral-600">
-                            Rating: {product.rating.rate}/5 ({product.rating.count} reviews)
-                        </div>
-                    )}
+                    <div className="flex items-center justify-between">
+                        {product.rating && (
+                            <div className="text-sm text-neutral-600 flex">
+                                <StarRating
+                                    rating={product.rating.rate}
+                                    className="mb-2"
+                                />
+                                <span className="ml-2">({product.rating.count} reviews)</span>
+                            </div>
+                        )}
+
+                    </div>
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => alert(`Buying ${product.title}`)}
+                            className="px-6 py-3 bg-orange-600 text-white rounded-lg shadow hover:bg-orange-700 transition-colors"
+                        >
+                            Buy Now
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
