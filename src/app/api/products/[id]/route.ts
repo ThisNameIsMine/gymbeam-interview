@@ -2,9 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Product } from '@/types/types'; // Assuming you have a shared types file
 
-interface RouteParams {
-  id: string;
-}
 
 export async function GET(
   request: NextRequest,

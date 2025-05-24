@@ -2,10 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Product } from '@/types/types'; 
 
-// Definujeme typ pre parametre, ktoré budeme očakávať v URL
-interface RouteParams {
-  categoryName: string;
-}
 
 export async function GET(
   request: NextRequest, 
