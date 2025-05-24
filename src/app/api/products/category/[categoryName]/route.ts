@@ -1,15 +1,17 @@
 // src/app/api/products/category/[categoryName]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Product } from '@/types/types'; 
 
 // Definujeme typ pre parametre, ktoré budeme očakávať v URL
-
+interface RouteParams {
+  categoryName: string;
+}
 
 export async function GET(
-  request: Request, 
-  context: { params: { categoryName: string } } // Získavame parametre z URL, ktoré obsahujú názov kategórie
+  request: NextRequest, 
+  { params }: {params: RouteParams} // Získavame parametre z URL, ktoré obsahujú názov kategórie
 ) {
-  const { categoryName } = context.params; // Získavame názov kategórie z parametrov
+  const { categoryName } = params;
 
   if (!categoryName) {
     return NextResponse.json({ message: 'Category name is required' }, { status: 400 });
