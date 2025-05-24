@@ -1,10 +1,10 @@
 // src/app/api/products/category/[categoryName]/route.ts
 import { NextResponse } from 'next/server';
-import { Product } from '@/types/types'; // Adjust the import path as necessary
+import { Product } from '@/types/types'; 
 
 export async function GET(
-  request: Request, // First argument is Request object
-  { params }: { params: { categoryName: string } } // Second argument contains route params
+  request: Request, 
+  { params }: { params: { categoryName: string } } // Kategória, ktorú chceme načítať
 ) {
   const { categoryName } = await params;
 
@@ -15,8 +15,8 @@ export async function GET(
   try {
     const response = await fetch(`https://fakestoreapi.com/products/category/${encodeURIComponent(categoryName)}`, {
       next: {
-        revalidate: 3600, // Cache for 60 seconds
-        tags: [`category-${categoryName}`] // Tag for cache invalidation
+        revalidate: 3600, // Revaliduje po 1 hodine (3600 sekúnd)
+        tags: [`category-${categoryName}`] // Tag pre invalidáciu cache
       }
     });
 
@@ -27,7 +27,7 @@ export async function GET(
         { status: response.status }
       );
     }
-
+    // Získame produkty pre danú kategóriu z json odpovede
     const products: Product[] = await response.json();
     return NextResponse.json(products);
 

@@ -3,17 +3,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext'; // Import useAuth hooku
-
+import { useAuth } from '@/contexts/AuthContext'; // Import useAuth hooku, ktorý poskytuje prístup k autentifikačným funkciám
 
 export default function LoginPage() {
     const [username, setUsername] = useState('mor_2314'); // Predvyplnené pre testovanie
-    const [password, setPassword] = useState('83r5^_'); // Predvyplnené pre testovanie
+    const [password, setPassword] = useState('83r5^_');   // Predvyplnené pre testovanie
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const { login } = useAuth(); // Získanie login funkcie z AuthContextu
-
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -32,22 +30,31 @@ export default function LoginPage() {
                 }),
             });
 
-            const data = await response.json();
+            // Kontrola odpovede z API
+            if (response.ok) {
+                const data = await response.json(); // This can still throw if the body isn't valid JSON
 
-            if (response.ok && data.token) {
-                login(data.token); // Zavolanie login funkcie z AuthContextu s prijatým tokenom
-                // Presmerovanie je už riešené v AuthContext.login()
-                // router.push('/products'); // Toto už nie je potrebné
+                if (data.token) { // Simplified from: if (response.ok && data.token)
+                    login(data.token); // Zavolanie login funkcie z AuthContextu s prijatým tokenom
+                    // Presmerovanie je už riešené v AuthContext.login()
+                } else {
+                    // Ak API vráti chybu (alebo 200 OK bez tokenu), zaznamenáme ju
+                    setError(data.msg || 'Login failed. Please check your credentials.');
+                    console.error('Login failed (response ok, but no token or error msg):', data);
+                }
             } else {
-                // FakeStoreAPI vracia 200 OK aj pri zlyhaní, ale bez tokenu, alebo s chybovou správou
-                // Dokumentácia hovorí, že pri zlyhaní vráti status 401, čo je lepšie
-                // V praxi môže API vrátiť rôzne chybové kódy, tu zjednodušujeme
-                setError(data.msg || 'Prihlásenie zlyhalo. Skontrolujte prihlasovacie údaje.');
-                console.error('Login failed:', data);
+                // Ak odpoveď nie je OK, spracujeme chybu, 401 su zvyčajne nesprávne prihlasovacie údaje
+                if (response.status === 401) {
+                    setError('Incorrect credentials. Please try again.');
+                } else {
+                    setError(`Login failed. Server responded with status: ${response.status}. Please try again later.`);
+                    console.error('Login failed with status:', response.status, response.statusText);
+                }
             }
         } catch (err) {
-            console.error('Chyba pri prihlasovaní:', err);
-            setError('Nastala chyba pri pripojení. Skúste to prosím neskôr.');
+            // Ak sa vyskytne chyba pri spracovaní požiadavky, zaznamenáme ju
+            console.error('Error during login request:', err);
+            setError('An error occurred while trying to connect. Please try again later.');
         } finally {
             setIsLoading(false);
         }
@@ -68,7 +75,7 @@ export default function LoginPage() {
                             htmlFor="username"
                             className="block text-sm font-medium text-neutral-700"
                         >
-                            Používateľské meno {/* Slovak label */}
+                            Username
                         </label>
                         <input
                             id="username"
@@ -79,7 +86,7 @@ export default function LoginPage() {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            placeholder="napr. mor_2314"
+                            placeholder="e.g., mor_2314"
                         />
                     </div>
 
@@ -88,7 +95,7 @@ export default function LoginPage() {
                             htmlFor="password"
                             className="block text-sm font-medium text-neutral-700"
                         >
-                            Heslo {/* Slovak label */}
+                            Password
                         </label>
                         <input
                             id="password"
@@ -99,11 +106,11 @@ export default function LoginPage() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            placeholder="napr. 83r5^_"
+                            placeholder="e.g., 83r5^_"
                         />
                     </div>
                     <div className="text-xs text-gray-500">
-                        Tip: Použite prihlasovacie údaje z <a href="https://fakestoreapi.com/docs" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline">FakeStoreAPI Docs</a>.
+                        Tip: Use credentials from <a href="https://fakestoreapi.com/docs" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline">FakeStoreAPI Docs</a>.
                     </div>
 
                     <div>
@@ -112,16 +119,16 @@ export default function LoginPage() {
                             disabled={isLoading}
                             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:bg-orange-300"
                         >
-                            {isLoading ? 'Prihlasujem...' : 'Prihlásiť sa'} {/* Slovak button text */}
+                            {isLoading ? 'Logging in...' : 'Login'}
                         </button>
                     </div>
                 </form>
                 <p className="text-sm text-center text-neutral-600">
-                    Nemáte účet? Registrácia je pre toto demo voliteľná.
+                    Don't have an account? Registration is optional for this demo.
                 </p>
                 <p className="text-sm text-center text-neutral-600">
                     <Link href="/" className="font-medium text-orange-600 hover:text-orange-500">
-                        ← Späť na domovskú stránku {/* Slovak link text */}
+                        ← Back to homepage
                     </Link>
                 </p>
             </div>

@@ -5,8 +5,8 @@ export async function GET() {
   try {
     const response = await fetch('https://fakestoreapi.com/products/categories', {
       next: {
-        revalidate: 3600, // Cache for 60 seconds
-        tags: ['categories'] // Tag for cache invalidation
+        revalidate: 3600, // Revaliduje po 1 hodine (3600 sekúnd)
+        tags: ['categories'] // Tag pre revalidáciu cache
       }
     });
 

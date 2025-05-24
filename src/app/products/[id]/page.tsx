@@ -3,21 +3,21 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation'; // To get the [id] from the URL
-import ProtectedRoute from '@/components/ProtectedRoute';
+import { useParams } from 'next/navigation'; // Pre získanie parametrov z URL (id produktu)
+import ProtectedRoute from '@/components/ProtectedRoute'; // Pre ochranu stránky pred neautorizovaným prístupom
 import { useAuth } from '@/contexts/AuthContext';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import LoadingSpinner from '@/components/LoadingSpinner'; // Pre zobrazenie načítavacieho indikátora
 import StarRating from '@/components/StarRating';
-import { Product } from '@/types/types'; // Assuming you have a Product type defined
+import { Product } from '@/types/types'; // 
 
 function ProductDetailPageContent() {
-    const params = useParams(); // Hook to access route parameters
-    const id = params.id as string; // Get the product ID from the URL
-
+    const params = useParams(); // Získanie parametrov z URL
+    const id = params.id as string; // Získanie ID produktu z parametrov
+    // State pre ukladanie produktu, načítavanie a chyby
     const [product, setProduct] = useState<Product | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { token } = useAuth();
+    const { token } = useAuth(); // Získanie tokenu z AuthContext
 
     useEffect(() => {
         if (!id) return;
@@ -26,10 +26,12 @@ function ProductDetailPageContent() {
             setIsLoading(true);
             setError(null);
             try {
-                // Fetch from your internal API route
+                // Získanie produktu z API pomocou ID
+                // Tu využijeme vlastný api endpoind, síce pre toto zadanie by sme mohli použiť aj priamo fetch, ale pre demonštráciu použijeme API route (je to dobrý štandard pre Next.js aplikácie)
+                // Taktiež sa takto dá zabezpečiť bezpečnosť, aby sa API kľúč neukladal priamo v klientskom kóde
                 const response = await fetch(`/api/products/${id}`);
                 if (!response.ok) {
-                    const errorData = await response.json(); // Get error message from your API route
+                    const errorData = await response.json(); // Získanie chybových údajov z odpovede
                     throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
                 }
                 const data: Product = await response.json();
@@ -43,22 +45,25 @@ function ProductDetailPageContent() {
         };
 
         fetchProduct();
-    }, [id]); // Dependency on id and token
+    }, [id]); // Závislosť na id, aby sa efekt spustil pri zmene ID produktu
 
+    // Ak je načítavanie, zobrazíme načítavací indikátor
     if (isLoading) {
         return <div className="w-full h-full flex justify-center items-center"><LoadingSpinner loading={isLoading} /></div>; // Use LoadingSpinner component
     }
 
+    // Ak nastala chyba, zobrazíme chybovú správu
     if (error) {
         return <div className="text-center py-10 text-red-500">Error: {error}</div>;
     }
-
+    // Ak produkt neexistuje, zobrazíme správu o tom, že produkt nebol nájdený
     if (!product) {
         return <div className="text-center py-10">Product not found.</div>;
     }
 
     return (
         <div className="max-w-4xl mx-auto">
+            {/* Zobrazenie odkazu na späť na zoznam produktov, mohlo/malo by byť tlačidlo ale takto to vyzuálne vyzerá dobre*/}
             <Link href="/products" className="inline-block mb-6 text-orange-600 hover:text-orange-700 font-semibold">
                 ← Back to Products
             </Link>
@@ -103,7 +108,7 @@ function ProductDetailPageContent() {
     );
 }
 
-// Wrap the page content with ProtectedRoute
+// Hlavný komponent pre stránku detailu produktu, ktorá je chránená pred neautorizovaným prístupom
 export default function ProductDetailPage() {
     return (
         <ProtectedRoute>
