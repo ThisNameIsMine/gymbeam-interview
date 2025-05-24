@@ -7,7 +7,7 @@ export async function GET(
   request: NextRequest, 
   { params }: { params: { categoryName: string } } // Získavame parametre z URL, ktoré obsahujú názov kategórie
 ) {
-  const { categoryName } = params;
+  const { categoryName } = await params;
 
   if (!categoryName) {
     return NextResponse.json({ message: 'Category name is required' }, { status: 400 });
