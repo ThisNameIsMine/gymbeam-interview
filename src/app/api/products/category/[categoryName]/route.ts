@@ -5,7 +5,7 @@ import { Product } from '@/types/types';
 
 export async function GET(
   request: NextRequest, 
-  { params }: { params: { categoryName: string } } // Získavame parametre z URL, ktoré obsahujú názov kategórie
+  { params }: { params: Promise<{ categoryName: string }> } // Získavame parametre z URL, ktoré obsahujú názov kategórie
 ) {
   const { categoryName } = await params;
 
