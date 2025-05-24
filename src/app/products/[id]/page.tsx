@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation'; // To get the [id] from the URL
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/contexts/AuthContext';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 // Define an interface for the product structure (can be reused or imported)
 interface Product {
@@ -57,7 +58,7 @@ function ProductDetailPageContent() {
     }, [id]); // Dependency on id and token
 
     if (isLoading) {
-        return <div className="text-center py-10">Loading product details...</div>;
+        return <div className="w-full h-full flex justify-center items-center"><LoadingSpinner loading={isLoading} /></div>; // Use LoadingSpinner component
     }
 
     if (error) {

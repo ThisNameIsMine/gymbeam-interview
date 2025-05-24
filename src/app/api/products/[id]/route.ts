@@ -1,7 +1,7 @@
 // src/app/api/products/[id]/route.ts
 import { NextResponse } from 'next/server';
+import { Product } from '@/types'; // Assuming you have a shared types file
 
-interface Product { /* ... (same Product interface as above) ... */ }
 
 export async function GET(
   request: Request,
@@ -15,7 +15,10 @@ export async function GET(
 
   try {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      cache: 'no-store',
+      next:{
+        revalidate: 3600, // Cache for 60 seconds
+        tags: [`product-${id}`] // Tag for cache invalidation
+      }
     });
 
     if (!response.ok) {

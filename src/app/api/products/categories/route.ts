@@ -4,7 +4,10 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const response = await fetch('https://fakestoreapi.com/products/categories', {
-      cache: 'no-store', // Or configure as needed
+      next: {
+        revalidate: 3600, // Cache for 60 seconds
+        tags: ['categories'] // Tag for cache invalidation
+      }
     });
 
     if (!response.ok) {

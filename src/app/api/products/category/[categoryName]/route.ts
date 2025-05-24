@@ -15,7 +15,10 @@ export async function GET(
 
   try {
     const response = await fetch(`https://fakestoreapi.com/products/category/${encodeURIComponent(categoryName)}`, {
-      cache: 'no-store',
+      next: {
+        revalidate: 3600, // Cache for 60 seconds
+        tags: [`category-${categoryName}`] // Tag for cache invalidation
+      }
     });
 
     if (!response.ok) {

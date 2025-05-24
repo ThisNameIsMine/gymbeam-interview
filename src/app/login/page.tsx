@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext'; // Import useAuth hooku
-// import { useRouter } from 'next/navigation'; // useRouter už nepotrebujeme priamo tu, AuthContext sa o to postará
+
 
 export default function LoginPage() {
     const [username, setUsername] = useState('mor_2314'); // Predvyplnené pre testovanie
@@ -13,7 +13,7 @@ export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
 
     const { login } = useAuth(); // Získanie login funkcie z AuthContextu
-    // const router = useRouter(); // Už nie je potrebné
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

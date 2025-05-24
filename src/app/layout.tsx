@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/contexts/AuthContext";
+import AnnouncementBar from "@/components/AnnouncementBar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,16 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="">
         <AuthProvider>
+          <AnnouncementBar message="Darček k nákupu ASAP Cookie vanilka + ASAP Cookie trojitá čokoláda ZADARMO. Stačí nákup nad 50 € a kód ASAP." />
           <Navbar /> {/* Add Navbar here */}
           <main className="container mx-auto px-4 py-8"> {/* Added some padding to main content */}
             {children}
           </main>
-          {/* Optional Footer can go here */}
-          {/* <footer className="text-center py-4 border-t mt-8">
-          <p>© {new Date().getFullYear()} GymBeam Case Study</p>
-        </footer> */}
+          <Footer />
         </AuthProvider>
       </body>
     </html>

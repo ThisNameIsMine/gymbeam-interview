@@ -5,20 +5,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute'; // Import the HOC
 import { useAuth } from '@/contexts/AuthContext'; // To get the token if needed for API calls
+import { Product } from '@/types'; // Assuming you have a Product type defined
+import LoadingSpinner from '@/components/LoadingSpinner';
 
-// Define an interface for the product structure
-interface Product {
-    id: number;
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    rating: {
-        rate: number;
-        count: number;
-    };
-}
 
 function ProductsPageContent() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -170,7 +159,7 @@ function ProductsPageContent() {
             </div>
 
             {/* Product Grid */}
-            {isLoading && <div className="text-center py-10">Filtering products...</div>}
+            {isLoading && <div className="w-full h-full flex justify-center items-center"><LoadingSpinner loading={isLoading} /></div>}
             {!isLoading && error && <div className="text-center py-10 text-red-500">Error loading products: {error}</div>}
             {!isLoading && !error && products.length === 0 && <div className="text-center py-10">No products found.</div>}
 

@@ -23,7 +23,10 @@ export async function GET() {
       //   'Authorization': `Bearer ${process.env.YOUR_API_KEY}`
       // }
       // For caching strategies with fetch in Next.js:
-      cache: 'no-store', // Or 'force-cache', or revalidate options like { next: { revalidate: 3600 } }
+      next: {
+        revalidate: 3600, // Cache for 60 seconds
+        tags: ['products'] // Tag for cache invalidation
+      }
     });
 
     if (!response.ok) {
