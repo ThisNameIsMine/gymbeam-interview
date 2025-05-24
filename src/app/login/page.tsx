@@ -19,6 +19,8 @@ export default function LoginPage() {
         setIsLoading(true);
 
         try {
+            // Kontrola, či sú vyplnené prihlasovacie údaje, v tomto prípade používame priamu cestu k FakeStoreAPI namiesto Next.js API route,
+            // pretože FakeStoreAPI nevyžaduje autentifikáciu pre login (ale pre skutočné aplikácie by sa malo používať API route na ochranu citlivých údajov).
             const response = await fetch('https://fakestoreapi.com/auth/login', {
                 method: 'POST',
                 headers: {
@@ -32,9 +34,9 @@ export default function LoginPage() {
 
             // Kontrola odpovede z API
             if (response.ok) {
-                const data = await response.json(); // This can still throw if the body isn't valid JSON
+                const data = await response.json(); // Spracovanie JSON odpovede
 
-                if (data.token) { // Simplified from: if (response.ok && data.token)
+                if (data.token) { // Kontrola, či API vrátilo token
                     login(data.token); // Zavolanie login funkcie z AuthContextu s prijatým tokenom
                     // Presmerovanie je už riešené v AuthContext.login()
                 } else {

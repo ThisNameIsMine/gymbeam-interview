@@ -1,11 +1,10 @@
 // src/app/products/page.tsx
-"use client"; // For fetching data client-side and using hooks
-
+"use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ProtectedRoute from '@/components/ProtectedRoute'; // Import the HOC
-import { useAuth } from '@/contexts/AuthContext'; // To get the token if needed for API calls
-import { Product } from '@/types/types'; // Assuming you have a Product type defined
+import ProtectedRoute from '@/components/ProtectedRoute'; // Komponent pre ochranu stránky pred neautorizovaným prístupom
+import { useAuth } from '@/contexts/AuthContext'; // Pre získanie autentifikačného kontextu
+import { Product } from '@/types/types'; // Typ pre produkt
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ProductCard from '@/components/ProductCard';
 import Banner from '@/components/Banner';
@@ -13,20 +12,23 @@ import Banner from '@/components/Banner';
 
 function ProductsPageContent() {
     const [products, setProducts] = useState<Product[]>([]);
-    const [allProducts, setAllProducts] = useState<Product[]>([]); // To store all products for client-side filtering/sorting
+    const [allProducts, setAllProducts] = useState<Product[]>([]); // Ukladá všetky produkty 
     const [categories, setCategories] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { token } = useAuth(); // Get token, though FakeStoreAPI /products doesn't strictly need it
+    const { token } = useAuth(); // Získanie tokenu z AuthContext, ak je potrebný pre autentifikáciu API volaní (napríklad pre ochranu API endpointov,
+    //  ktoré vyžadujú autentifikáciu), v našom prípade FakeStoreAPI nevyžaduje autentifikáciu, ale pre budúce použitie to môže byť užitočné.
 
     useEffect(() => {
         const fetchProducts = async () => {
             setIsLoading(true);
             setError(null);
             try {
-                // FakeStoreAPI's /products endpoint doesn't require authentication,
-                // but in a real app, you might need to pass the token in headers.
+                // Tu by sa mohol použiť token, ak by bol potrebný pre autentifikáciu API volaní
+                // V tomto prípade FakeStoreAPI nevyžaduje autentifikáciu, takže token nie je potrebný.
+                // Rovnako tak by sa mohol použiť fetch priamo na FakeStoreAPI, ale pre túto aplikáciu používame proxy server v Next.js,
+                // ktorý smeruje na /api/products, čo je endpoint v našej aplikácii, ktorý sa stará o získavanie produktov.
                 const response = await fetch('/api/products', {
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,9 +49,9 @@ function ProductsPageContent() {
         };
 
         fetchProducts();
-    }, [token]); // Re-fetch if token changes, though not critical for this specific API endpoint
+    }, [token]); // Závislosť na tokene, ak by bol potrebný pre autentifikáciu API volaní
 
-    // Fetch categories
+    // získanie kategórií produktov
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -68,7 +70,7 @@ function ProductsPageContent() {
         fetchCategories();
     }, []);
 
-    // Fetch products based on selected category, or all products
+    // Získanie produktov podľa vybranej kategórie	
     useEffect(() => {
         const fetchProductsData = async () => {
             setIsLoading(true);
@@ -99,15 +101,17 @@ function ProductsPageContent() {
         };
 
         fetchProductsData();
-    }, [selectedCategory]); // Re-fetch when selectedCategory changes
+    }, [selectedCategory]); // Závislosť na selectedCategory, aby sa produkty načítali podľa vybranej kategórie, 
+    // ak je selectedCategory null, načítajú sa všetky produkty
+    // Ak je selectedCategory nastavená, načítajú sa produkty len pre túto kategóriu.
+
     const handleCategorySelect = (category: string | null) => {
         setSelectedCategory(category);
-        // When a category is selected, products state is updated by the useEffect above.
-        // If "All" is selected (category is null), products will be all products.
     };
 
+    // Ak sa načítavajú produkty a žiadne produkty nie sú dostupné, zobrazí sa správa
     if (isLoading && products.length === 0) {
-        return <div className="text-center py-10">Loading products...</div>;
+        return <div className="w-full h-full flex justify-center items-center"><LoadingSpinner loading={isLoading} /></div>; // Zobrazenie načítavacieho indikátora počas načítavania produktu
     }
 
     if (error) {
@@ -118,7 +122,8 @@ function ProductsPageContent() {
         return <div className="text-center py-10">No products found.</div>;
     }
 
-    // If loading is finished but products array is empty
+    // Ak sa nenašli žiadne produkty pre vybranú kategóriu, zobrazí sa správa
+    // a tlačidlá pre výber kategórií
     if (!isLoading && products.length === 0 && !error) {
         return (
             <div>
@@ -142,8 +147,7 @@ function ProductsPageContent() {
     return (
         <div>
             <Banner />
-            {/* <h1 className="text-4xl font-bold mb-8 text-center text-neutral-800">Recomended Products</h1> */}
-            {/* Category Filters UI */}
+            {/* Voľba kategórii */}
             <div className="text-center py-4 mb-6">
                 <button
                     onClick={() => handleCategorySelect(null)}
@@ -180,7 +184,7 @@ function ProductsPageContent() {
     );
 }
 
-// Wrap the page content with ProtectedRoute
+// Hlavná stránka pre produkty, ktorá je chránená pred neautorizovaným prístupom
 export default function ProductsPage() {
     return (
         <ProtectedRoute>

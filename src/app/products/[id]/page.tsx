@@ -49,7 +49,7 @@ function ProductDetailPageContent() {
 
     // Ak je načítavanie, zobrazíme načítavací indikátor
     if (isLoading) {
-        return <div className="w-full h-full flex justify-center items-center"><LoadingSpinner loading={isLoading} /></div>; // Use LoadingSpinner component
+        return <div className="w-full h-full flex justify-center items-center"><LoadingSpinner loading={isLoading} /></div>; // Zobrazenie načítavacieho indikátora počas načítavania produktu
     }
 
     // Ak nastala chyba, zobrazíme chybovú správu

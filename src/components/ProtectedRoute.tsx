@@ -14,18 +14,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
-        // If authentication status is still loading, don't do anything yet.
+        // Ak nieje ešte načítané autentifikačné údaje, nebudeme robiť nič
         if (isLoading) {
             return;
         }
 
-        // If not authenticated and loading is finished, redirect to login.
+        // Ak používateľ nie je autentifikovaný, presmerujeme ho na prihlasovaciu stránku
         if (!isAuthenticated) {
-            router.replace('/login'); // Use replace to avoid adding to history stack
+            router.replace('/login'); // replace použijeme na zabránenie spätného navigovania na túto stránku
         }
     }, [isAuthenticated, isLoading, router]);
 
-    // If loading, show a loading indicator or null to prevent flash of content
+    // Ak sa stále načítavajú autentifikačné údaje, môžeme zobraziť načítavací indikátor alebo placeholder
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
@@ -34,13 +34,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         );
     }
 
-    // If authenticated, render the children (the protected page content)
+    // Ak je používateľ autentifikovaný, zobrazíme obsah stránky
     if (isAuthenticated) {
         return <>{children}</>;
     }
 
-    // If not authenticated (and not loading), this part might not be reached due to redirect,
-    // but it's good practice to return null or a loader.
+    // V prípade, že používateľ nie je autentifikovaný, nevraciame nič (už sme ho presmerovali)
     return null;
 };
 

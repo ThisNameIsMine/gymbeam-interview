@@ -30,6 +30,9 @@ const featureItems: FeatureItem[] = [
 ];
 
 export default function Banner() {
+    // Komponenta Banner, ktorá zobrazuje štyri funkcie s ikonami a textom
+    // Vytvára sa zo štyroch položiek, každá s ikonou a dvoma riadkami textu
+    // podľa oficiálnej stránky GymBeam
     return (
         <div className="bg-white text-neutral-800 ">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">

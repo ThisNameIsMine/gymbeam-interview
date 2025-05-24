@@ -46,9 +46,9 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* Icons and Auth Button Section */}
+                {/* Ikony pre profil a košík */}
                 <div className="flex items-center space-x-4 md:space-x-6">
-                    {/* Profile Icon and Dropdown */}
+                    {/* Dropdown menu pre profil */}
                     <div
                         className="relative"
                         onMouseEnter={() => setIsProfileDropdownOpen(true)}
@@ -57,7 +57,7 @@ export default function Navbar() {
                         <button
                             aria-label="User profile"
                             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                            onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)} // Also allow click for touch devices
+                            onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)} // Pre otvorenie/zatvorenie dropdownu na dotykovom zariadení	
                         >
                             <LuUser className="text-2xl text-neutral-700" />
                         </button>
@@ -67,7 +67,7 @@ export default function Navbar() {
                                     <button
                                         onClick={() => {
                                             logout();
-                                            setIsProfileDropdownOpen(false); // Close dropdown on action
+                                            setIsProfileDropdownOpen(false); // Zatvorenie dropdownu po odhlásení
                                         }}
                                         className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-orange-500 hover:text-white flex items-center rounded-md"
                                     >
@@ -76,8 +76,8 @@ export default function Navbar() {
                                 ) : (
                                     <Link
                                         href="/login"
-                                        onClick={() => setIsProfileDropdownOpen(false)} // Close dropdown on navigation
-                                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-orange-500 hover:text-white flex items-center"
+                                        onClick={() => setIsProfileDropdownOpen(false)} // Zatvorenie dropdownu po kliknutí na Login
+                                        className="px-4 py-2 text-sm text-neutral-700 hover:bg-orange-500 hover:text-white flex items-center"
                                     >
                                         <LuLogIn className="mr-2" /> Login
                                     </Link>
@@ -86,7 +86,7 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    {/* Cart Icon and Dropdown */}
+                    {/* Dropdown menu pre vozík */}
                     <div
                         className="relative"
                         onMouseEnter={() => setIsCartDropdownOpen(true)}
@@ -95,7 +95,7 @@ export default function Navbar() {
                         <button
                             aria-label="Shopping cart"
                             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                            onClick={() => setIsCartDropdownOpen(!isCartDropdownOpen)} // Also allow click for touch devices
+                            onClick={() => setIsCartDropdownOpen(!isCartDropdownOpen)} // Pre otvorenie/zatvorenie dropdownu na dotykovom zariadení
                         >
                             <LuShoppingCart className="text-2xl text-neutral-700" />
                         </button>
@@ -104,37 +104,10 @@ export default function Navbar() {
                                 <p className="text-center text-neutral-600 text-sm">
                                     Your shopping cart is currently empty.
                                 </p>
-                                {/* If cart had items:
-                <div className="mt-2">
-                  Item 1...
-                </div>
-                <Link href="/cart" className="block mt-4 text-center w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded">
-                  View Cart & Checkout
-                </Link>
-                */}
                             </div>
                         )}
                     </div>
 
-                    {/* Original Login/Logout Button - Now handled by Profile Dropdown, so can be removed or kept for larger screens as an alternative */}
-                    {/* For this example, I'll comment it out to rely on the dropdowns */}
-                    {/*
-          {isAuthenticated ? (
-            <button
-              onClick={logout}
-              className="bg-neutral-600 hover:bg-neutral-700 text-white font-semibold py-2 px-4 rounded transition duration-150 ease-in-out hidden md:block"
-            >
-              Logout
-            </button>
-          ) : (
-            <Link
-              href="/login"
-              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded transition duration-150 ease-in-out hidden md:block"
-            >
-              Login
-            </Link>
-          )}
-          */}
                 </div>
             </div>
         </nav>

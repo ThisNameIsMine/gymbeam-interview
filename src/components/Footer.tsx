@@ -1,7 +1,7 @@
 // src/components/Footer.tsx
-"use client"; // Required for Next.js 13+ to use client-side features
+"use client";
 import Link from 'next/link';
-import { LuFacebook, LuInstagram, LuYoutube, LuTwitter } from 'react-icons/lu'; // Example social icons
+import { LuFacebook, LuInstagram, LuYoutube, LuTwitter } from 'react-icons/lu'; // importovanie ikon pre sociálne siete
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -10,7 +10,7 @@ export default function Footer() {
         <footer className="bg-neutral-800 text-neutral-300">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-8">
-                    {/* Column 1: About / Links */}
+                    {/* List so základnými informáciami */}
                     <div>
                         <h5 className="text-lg font-semibold text-white mb-4">GymBeam</h5>
                         <nav className="space-y-2">
@@ -21,7 +21,7 @@ export default function Footer() {
                         </nav>
                     </div>
 
-                    {/* Column 2: Customer Service */}
+                    {/* Zákaznícka podpora */}
                     <div>
                         <h5 className="text-lg font-semibold text-white mb-4">Customer Service</h5>
                         <nav className="space-y-2">
@@ -32,7 +32,7 @@ export default function Footer() {
                         </nav>
                     </div>
 
-                    {/* Column 3: Social Media */}
+                    {/* Sociálne siete (marketing musí byť) */}
                     <div>
                         <h5 className="text-lg font-semibold text-white mb-4">Follow Us</h5>
                         <div className="flex space-x-4">
@@ -43,8 +43,8 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Column 4: Newsletter (Optional) */}
-                    <div className="lg:col-span-1 md:col-span-3"> {/* Spans full on md, specific on lg */}
+                    {/* Newsletter (Optional) */}
+                    <div className="lg:col-span-1 md:col-span-3">
                         <h5 className="text-lg font-semibold text-white mb-4">Newsletter</h5>
                         <p className="text-sm mb-3">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
                         <div className="flex items-center gap-1">

@@ -1,5 +1,5 @@
 // src/components/StarRating.tsx
-import { LuStar } from 'react-icons/lu'; // Using react-icons
+import { LuStar } from 'react-icons/lu';
 
 interface StarRatingProps {
     rating: number;
@@ -11,12 +11,13 @@ interface StarRatingProps {
 export default function StarRating({
     rating,
     maxStars = 5,
-    starSize = 'w-5 h-5', // Default size
+    starSize = 'w-5 h-5', // 
     className = '',
 }: StarRatingProps) {
     const fullStars = Math.floor(rating);
     const emptyStars = maxStars - fullStars;
-
+    // Spočítame počet plných hviezd a prázdnych hviezd na základe hodnotenia
+    // maxStars je predvolený na 5, ak nie je zadaný inak
     return (
         <div className={`flex items-center ${className}`}>
             {Array.from({ length: fullStars }).map((_, index) => (

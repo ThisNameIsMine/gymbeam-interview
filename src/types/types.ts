@@ -1,4 +1,4 @@
-// Define an interface for the product structure
+// Definovaný typ pre produkt
 export interface Product {
     id: number;
     title: string;
