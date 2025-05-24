@@ -2,11 +2,16 @@
 import { NextResponse } from 'next/server';
 import { Product } from '@/types/types'; 
 
+// Definujeme typ pre parametre, ktoré budeme očakávať v URL
+interface RouteParams {
+  categoryName: string;
+}
+
 export async function GET(
   request: Request, 
-  { params }: { params: { categoryName: string } } // Kategória, ktorú chceme načítať
+  { params }: {params: RouteParams} // Získavame parametre z URL, ktoré obsahujú názov kategórie
 ) {
-  const { categoryName } = await params;
+  const { categoryName } = params;
 
   if (!categoryName) {
     return NextResponse.json({ message: 'Category name is required' }, { status: 400 });
